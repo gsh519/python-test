@@ -1,0 +1,1 @@
+Python/Django学習プラン専用リポジトリ

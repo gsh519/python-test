@@ -5,6 +5,7 @@ source=["ねずこ","たんじろう","きょうじゅろう","ぎゆう","げ�
 ### 検索ツール
 def search():
     
+    # csv読み込み
     if not os.path.exists('search.csv'):
         with open('search.csv', 'w') as f:
             f.write('\n'.join(source))
@@ -20,6 +21,7 @@ def search():
             print('{}が見つかりませんでした'.format(word))
             source.append(word)
 
+        # csv書き込み
         with open('search.csv', 'w') as f:
             f.write('\n'.join(source))
 

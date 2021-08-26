@@ -1,16 +1,24 @@
 import os
-# 検索ソース
-source=["ねずこ","たんじろう","きょうじゅろう","ぎゆう","げんや","かなお","ぜんいつ"]
 
-### 検索ツール
+SOURCE=["ねずこ","たんじろう","きょうじゅろう","ぎゆう","げんや","かなお","ぜんいつ"]
+CSV_PATH = 'search.csv'
+
+# csv読み込み処理関数
+def read_source(csv):
+    if not os.path.exists(csv):
+        write_source(csv, SOURCE)
+    with open(csv, 'r') as f:
+        return f.read().split('\n')
+
+# csv書き込み処理関数
+def write_source(csv:str, source:list):
+    with open(csv, 'w') as f:
+        f.write('\n'.join(source))
+
+
 def search():
     
-    # csv読み込み
-    if not os.path.exists('search.csv'):
-        with open('search.csv', 'w') as f:
-            f.write('\n'.join(source))
-    with open('search.csv', 'r') as f:
-        f.read()
+    source = read_source(CSV_PATH)
     
     while True:
         word =input("鬼滅の登場人物の名前を入力してください >>> ")
@@ -22,8 +30,7 @@ def search():
             source.append(word)
 
         # csv書き込み
-        with open('search.csv', 'w') as f:
-            f.write('\n'.join(source))
+        write_source(CSV_PATH, source)
 
 if __name__ == "__main__":
     search()

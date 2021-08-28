@@ -1,5 +1,4 @@
 import os
-from selenium import webdriver
 from selenium.webdriver import Chrome, ChromeOptions
 from selenium.webdriver import Firefox
 from selenium.webdriver.firefox.options import Options
@@ -62,23 +61,46 @@ def main():
     # 検索結果の一番上の会社名を取得
     name_list = driver.find_elements_by_class_name("cassetteRecruit__name")
     
+    # 求人タイトルを取得
+    ttl_list = driver.find_elements_by_class_name('cassetteRecruit__copy')
+    
+    # 給与を取得
+    income_list = driver.find_elements_by_xpath("//*[contains(text(), '初年度年収')]/following-sibling::td")
+    for income in income_list:
+        print(income.text)
+    
     # 空のDataFrame作成
     df = pd.DataFrame()
 
     # 1ページ分繰り返し
+    print('1ページ目の求人数')
     print(len(name_list))
+    # 会社名を表示
     for name in name_list:
         print(name.text)
-        # DataFrameに対して辞書形式でデータを追加する
-        df = df.append(
-            {
-                "会社名": name.text, 
-                "項目B": "",
-                "項目C": ""
-            }, 
-            ignore_index=True)
+    #     df = df.append(
+    #     {
+    #         "会社名": name.text, 
+    #         "項目B": "",
+    #         "項目C": ""
+    #     }, 
+    #     ignore_index=True)
+    
+    # print(df)
+    print('会社名はここまで')
+
+    print('---------------------------------')
+    # 求人タイトルを表示
+    for ttl in ttl_list:
+        print(ttl.text)
         
+    print('求人タイトルはここまで')
+    print('---------------------------------')
         
+    print('給与はここまで')
+    print('---------------------------------')
+    # DataFrameに対して辞書形式でデータを追加する
+    
 
 
 # 直接起動された場合はmain()を起動(モジュールとして呼び出された場合は起動しないようにするため)

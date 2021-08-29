@@ -5,9 +5,8 @@ from selenium.webdriver.firefox.options import Options
 import time
 import pandas as pd
 
+
 # Chromeを起動する関数
-
-
 def set_driver(driver_path, headless_flg):
     if "chrome" in driver_path:
         options = ChromeOptions()
@@ -32,9 +31,9 @@ def set_driver(driver_path, headless_flg):
     else:
         return Firefox(executable_path=os.getcwd()  + "/" + driver_path,options=options)
 
+
+
 # main処理
-
-
 def main():
     search_keyword = "高収入"
     # driverを起動
@@ -56,51 +55,55 @@ def main():
         "topSearch__text").send_keys(search_keyword)
     # 検索ボタンクリック
     driver.find_element_by_class_name("topSearch__button").click()
-
-    # ページ終了まで繰り返し取得
-    # 検索結果の一番上の会社名を取得
-    name_list = driver.find_elements_by_class_name("cassetteRecruit__name")
     
-    # 求人タイトルを取得
-    ttl_list = driver.find_elements_by_class_name('cassetteRecruit__copy')
+    time.sleep(4)
+    # ポップアップを閉じる
+    driver.execute_script('document.querySelector(".karte-close").click()')
     
-    # 給与を取得
-    income_list = driver.find_elements_by_xpath("//*[contains(text(), '初年度年収')]/following-sibling::td")
-    for income in income_list:
-        print(income.text)
     
-    # 空のDataFrame作成
-    df = pd.DataFrame()
-
-    # 1ページ分繰り返し
-    print('1ページ目の求人数')
-    print(len(name_list))
-    # 会社名を表示
-    for name in name_list:
-        print(name.text)
-    #     df = df.append(
-    #     {
-    #         "会社名": name.text, 
-    #         "項目B": "",
-    #         "項目C": ""
-    #     }, 
-    #     ignore_index=True)
     
-    # print(df)
-    print('会社名はここまで')
-
-    print('---------------------------------')
-    # 求人タイトルを表示
-    for ttl in ttl_list:
-        print(ttl.text)
+    # for文で一つの求人に対して・会社名・求人タイトル・給与を取得してくる
+    while True:
         
-    print('求人タイトルはここまで')
-    print('---------------------------------')
+        # 会社名を取得
+        name_list = driver.find_elements_by_class_name("cassetteRecruit__name")
         
-    print('給与はここまで')
-    print('---------------------------------')
-    # DataFrameに対して辞書形式でデータを追加する
-    
+        # 求人タイトルを取得
+        ttl_list = driver.find_elements_by_class_name('cassetteRecruit__copy')
+        
+        # 給与を取得
+        income_list = driver.find_elements_by_xpath("//*[contains(text(), '給与')]/following-sibling::td")
+        
+        for i in range(len(name_list)):
+            
+            # ・会社名
+            print("・会社名")
+            name = name_list[i].text
+            print(name)
+            
+            print('--------------------------------')
+            
+            print('・求人')
+            # ・求人タイトル
+            ttl = ttl_list[i].text
+            print(ttl)
+            
+            print('--------------------------------')
+            
+            print('・給与')
+            # ・給与
+            income = income_list[i].text
+            print(income)
+            
+            print('--------------------------------')
+            print('\n\n')
+        
+        try:
+            # 次のページへボタンクリック
+            driver.execute_script('document.querySelector(".iconFont--arrowLeft").click()')
+            time.sleep(3)
+        except Exception:
+            break
 
 
 # 直接起動された場合はmain()を起動(モジュールとして呼び出された場合は起動しないようにするため)

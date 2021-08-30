@@ -35,7 +35,10 @@ def set_driver(driver_path, headless_flg):
 
 # main処理
 def main():
-    search_keyword = "高収入"
+    
+    # 検索したいキーワードを入力する処理
+    search_keyword = input('調べたいキーワードを入力してください>>>')
+    
     # driverを起動
     if os.name == 'nt': #Windows
         driver = set_driver("chromedriver.exe", False)
@@ -51,16 +54,14 @@ def main():
     driver.execute_script('document.querySelector(".karte-close").click()')
 
     # 検索窓に入力
-    driver.find_element_by_class_name(
-        "topSearch__text").send_keys(search_keyword)
+    driver.find_element_by_class_name("topSearch__text").send_keys(search_keyword)
+    
     # 検索ボタンクリック
     driver.find_element_by_class_name("topSearch__button").click()
     
     time.sleep(4)
     # ポップアップを閉じる
     driver.execute_script('document.querySelector(".karte-close").click()')
-    
-    
     
     # for文で一つの求人に対して・会社名・求人タイトル・給与を取得してくる
     while True:

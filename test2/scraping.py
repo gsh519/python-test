@@ -63,6 +63,9 @@ def main():
     # ポップアップを閉じる
     driver.execute_script('document.querySelector(".karte-close").click()')
     
+    # 空のDataFrame作成
+    df = pd.DataFrame()
+    
     # for文で一つの求人に対して・会社名・求人タイトル・給与を取得してくる
     while True:
         
@@ -98,6 +101,18 @@ def main():
             
             print('--------------------------------')
             print('\n\n')
+            
+            df = df.append(
+                {
+                    '会社名': name,
+                    '求人名': ttl,
+                    '給与': income
+                },
+                ignore_index=True
+            )
+            
+            df.index = df.index + 1
+            df.to_csv("scraping_data.csv")
         
         try:
             # 次のページへボタンクリック

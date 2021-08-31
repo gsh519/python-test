@@ -92,27 +92,21 @@ def main():
             # ・会社名
             name = name_list[i].text
             company_name.append(name)
-
+            with open('log.txt', 'a') as f:
+                f.write(f'今{len(company_name)}件目\n')
+                f.write(f'{name}\n')
+            
             # ・求人タイトル
             ttl = ttl_list[i].text
             job_ttl.append(ttl)
+            with open('log.txt', 'a') as f:
+                f.write(f'{ttl}\n')
             
             # ・給与
             income = income_list[i].text
             income_month.append(income)
-            
-            
             with open('log.txt', 'a') as f:
-                f.write(f'今{len(company_name)}件目\n')
-                f.write(f'・会社名\n')
-                f.write(f'{company_name}\n')
-                f.write(f'-------------------------------\n')
-                f.write(f'・求人名\n')
-                f.write(f'{job_ttl}\n')
-                f.write(f'-------------------------------\n')
-                f.write(f'・給与\n')
-                f.write(f'{income_month}\n')
-                f.write(f'-------------------------------\n')
+                f.write(f'{income}\n')
             
             # csvに取得した情報を書き出す
             df = df.append(

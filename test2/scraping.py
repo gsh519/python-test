@@ -66,6 +66,15 @@ def main():
     # 空のDataFrame作成
     df = pd.DataFrame()
     
+    # 空の会社名を入れるリスト
+    company_name = []
+    
+    # 空の求人タイトルを入れるリスト
+    job_ttl = []
+    
+    # 空の会社名を入れるリスト
+    income_month = []
+    
     # for文で一つの求人に対して・会社名・求人タイトル・給与を取得してくる
     while True:
         
@@ -81,27 +90,31 @@ def main():
         for i in range(len(name_list)):
             
             # ・会社名
-            print("・会社名")
             name = name_list[i].text
-            print(name)
-            
-            print('--------------------------------')
-            
-            print('・求人')
+            company_name.append(name)
+
             # ・求人タイトル
             ttl = ttl_list[i].text
-            print(ttl)
+            job_ttl.append(ttl)
             
-            print('--------------------------------')
-            
-            print('・給与')
             # ・給与
             income = income_list[i].text
-            print(income)
+            income_month.append(income)
             
-            print('--------------------------------')
-            print('\n\n')
             
+            with open('log.txt', 'a') as f:
+                f.write(f'今{len(company_name)}件目\n')
+                f.write(f'・会社名\n')
+                f.write(f'{company_name}\n')
+                f.write(f'-------------------------------\n')
+                f.write(f'・求人名\n')
+                f.write(f'{job_ttl}\n')
+                f.write(f'-------------------------------\n')
+                f.write(f'・給与\n')
+                f.write(f'{income_month}\n')
+                f.write(f'-------------------------------\n')
+            
+            # csvに取得した情報を書き出す
             df = df.append(
                 {
                     '会社名': name,
@@ -111,8 +124,8 @@ def main():
                 ignore_index=True
             )
             
-            df.index = df.index + 1
-            df.to_csv("scraping_data.csv")
+        df.index = df.index + 1
+        df.to_csv("scraping_data.csv")
         
         try:
             # 次のページへボタンクリック

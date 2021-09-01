@@ -91,7 +91,7 @@ def main():
             
             # ・会社名
             try:
-                name = name_list[70].text
+                name = name_list[i].text
                 company_name.append(name)
                 # ログの書き出し
                 with open('log.txt', 'a') as f:
@@ -111,7 +111,7 @@ def main():
                 with open('log.txt', 'a') as f:
                     f.write(f'{ttl}\n')
             except Exception as e:
-                ttl = 'エラー'
+                ttl = e
                 with open('log.txt', 'a') as f:
                     f.write(f'{e}\n')
                 pass
@@ -149,6 +149,7 @@ def main():
             driver.execute_script('document.querySelector(".iconFont--arrowLeft").click()')
             time.sleep(3)
         except Exception:
+            driver.close()
             break
 
 

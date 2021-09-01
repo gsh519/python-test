@@ -90,23 +90,46 @@ def main():
         for i in range(len(name_list)):
             
             # ・会社名
-            name = name_list[i].text
-            company_name.append(name)
-            with open('log.txt', 'a') as f:
-                f.write(f'今{len(company_name)}件目\n')
-                f.write(f'{name}\n')
+            try:
+                name = name_list[70].text
+                company_name.append(name)
+                # ログの書き出し
+                with open('log.txt', 'a') as f:
+                    f.write(f'{len(company_name)}件目\n')
+                    f.write(f'{name}\n')
+            except Exception as e:
+                name = e
+                with open('log.txt', 'a') as f:
+                    f.write(f'{e}\n')
+                pass
             
             # ・求人タイトル
-            ttl = ttl_list[i].text
-            job_ttl.append(ttl)
-            with open('log.txt', 'a') as f:
-                f.write(f'{ttl}\n')
+            try:
+                ttl = ttl_list[i].text
+                job_ttl.append(ttl)
+                # ログの書き出し
+                with open('log.txt', 'a') as f:
+                    f.write(f'{ttl}\n')
+            except Exception as e:
+                ttl = 'エラー'
+                with open('log.txt', 'a') as f:
+                    f.write(f'{e}\n')
+                pass
             
             # ・給与
-            income = income_list[i].text
-            income_month.append(income)
-            with open('log.txt', 'a') as f:
-                f.write(f'{income}\n')
+            try:
+                income = income_list[i].text
+                income_month.append(income)
+                # ログの書き出し
+                with open('log.txt', 'a') as f:
+                    f.write(f'{income}\n')
+                    f.write(f'\n')
+                    f.write(f'\n')
+            except Exception as e:
+                income = e
+                with open('log.txt', 'a') as f:
+                    f.write(f'{e}\n')
+                pass
             
             # csvに取得した情報を書き出す
             df = df.append(

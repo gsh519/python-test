@@ -4,7 +4,11 @@ from selenium.webdriver import Firefox
 from selenium.webdriver.firefox.options import Options
 import time
 import pandas as pd
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium import webdriver
 
+# def setup_class(cls):
+#     cls.driver = webdriver.Chrome(ChromeDriverManager().install())
 
 # Chromeを起動する関数
 def set_driver(driver_path, headless_flg):
@@ -27,7 +31,7 @@ def set_driver(driver_path, headless_flg):
 
     # ChromeのWebDriverオブジェクトを作成する。
     if "chrome" in driver_path:
-        return Chrome(executable_path=os.getcwd() + "/" + driver_path,options=options)
+        return webdriver.Chrome(ChromeDriverManager().install())
     else:
         return Firefox(executable_path=os.getcwd()  + "/" + driver_path,options=options)
 
@@ -46,10 +50,10 @@ def main():
         driver = set_driver("chromedriver", False)
     # Webサイトを開く
     driver.get("https://tenshoku.mynavi.jp/")
-    time.sleep(5)
+    time.sleep(3)
     # ポップアップを閉じる
     driver.execute_script('document.querySelector(".karte-close").click()')
-    time.sleep(5)
+    time.sleep(3)
     # ポップアップを閉じる
     driver.execute_script('document.querySelector(".karte-close").click()')
 
@@ -100,7 +104,7 @@ def main():
             except Exception as e:
                 name = e
                 with open('log.txt', 'a') as f:
-                    f.write(f'{e}\n')
+                    f.write(f'エラー内容：{e}\n')
                 pass
             
             # ・求人タイトル
@@ -113,7 +117,7 @@ def main():
             except Exception as e:
                 ttl = e
                 with open('log.txt', 'a') as f:
-                    f.write(f'{e}\n')
+                    f.write(f'エラー内容：{e}\n')
                 pass
             
             # ・給与
@@ -128,7 +132,7 @@ def main():
             except Exception as e:
                 income = e
                 with open('log.txt', 'a') as f:
-                    f.write(f'{e}\n')
+                    f.write(f'エラー内容：{e}\n')
                 pass
             
             # csvに取得した情報を書き出す

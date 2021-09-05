@@ -7,8 +7,6 @@ import pandas as pd
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium import webdriver
 
-# def setup_class(cls):
-#     cls.driver = webdriver.Chrome(ChromeDriverManager().install())
 
 # Chromeを起動する関数
 def set_driver(driver_path, headless_flg):
@@ -31,6 +29,7 @@ def set_driver(driver_path, headless_flg):
 
     # ChromeのWebDriverオブジェクトを作成する。
     if "chrome" in driver_path:
+        # Chromeドライバーがバージョンアップの際に自動で更新
         return webdriver.Chrome(ChromeDriverManager().install())
     else:
         return Firefox(executable_path=os.getcwd()  + "/" + driver_path,options=options)
@@ -93,7 +92,7 @@ def main():
         
         for i in range(len(name_list)):
             
-            # ・会社名
+            # 会社名
             try:
                 name = name_list[i].text
                 company_name.append(name)
@@ -107,7 +106,7 @@ def main():
                     f.write(f'エラー内容：{e}\n')
                 pass
             
-            # ・求人タイトル
+            # 求人タイトル
             try:
                 ttl = ttl_list[i].text
                 job_ttl.append(ttl)
@@ -120,7 +119,7 @@ def main():
                     f.write(f'エラー内容：{e}\n')
                 pass
             
-            # ・給与
+            # 給与
             try:
                 income = income_list[i].text
                 income_month.append(income)

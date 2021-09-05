@@ -151,10 +151,14 @@ def main():
             # 次のページへボタンクリック
             driver.execute_script('document.querySelector(".iconFont--arrowLeft").click()')
             time.sleep(3)
-        except Exception:
-            driver.close()
+        except Exception as e:
+            print(e)
+            # driver.close()
             break
 
+    cur_url = driver.current_url
+    kw_url = cur_url.split('/', 4)[4]
+    add_search = input('他に調べたいキーワードを入力してください>>>>>')
 
 # 直接起動された場合はmain()を起動(モジュールとして呼び出された場合は起動しないようにするため)
 if __name__ == "__main__":
